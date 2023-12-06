@@ -15,7 +15,7 @@ namespace BlazorApp3.Server.Data
         }
 
 
-        // public DbSet<NombreClase> NombreTablaEnBaseDeDatos { get; set; }
+        public DbSet<Paciente> Pacientes { get; set; }
     }
 }
 
