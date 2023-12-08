@@ -1,5 +1,5 @@
 global using BlazorApp3.Shared;
-using BlazorApp3.Server.Data;
+using BlazorApp3.Server.    Data;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
