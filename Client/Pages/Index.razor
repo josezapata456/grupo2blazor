@@ -1,27 +1,67 @@
 ﻿@page "/"
 
-<PageTitle>Login</PageTitle>
+@page "/pacientes"
 
-<h1>Login</h1>
+@inject HttpClient Http
 
-<div class="form-group">
-    <label for="username">Email:</label>
-    <input type="text" id="email" class="form-control" @bind="email" />
-</div>
+<h3>Crear Paciente</h3>
+<EditForm Model="NuevoPaciente">
+    <InputText @bind-Value=NuevoPaciente.Nombre></InputText>
+    <InputDate @bind-Value=NuevoPaciente.FechaNacimiento></InputDate>
+    <InputText @bind-Value=NuevoPaciente.Genero></InputText>
+    <InputText @bind-Value=NuevoPaciente.Direccion></InputText>
+    <InputText @bind-Value=NuevoPaciente.Telefono></InputText>
+    <InputText @bind-Value=NuevoPaciente.SeguroMedico></InputText>
 
-<div class="form-group">
-    <label for="password">Password:</label>
-    <input type="password" id="password" class="form-control" @bind="password" />
-</div>
+    <button @onclick="(()=>CrearPaciente(NuevoPaciente))">Crear Paciente</button>
+</EditForm>
 
-<button class="btn btn-primary" @onclick="Login">Login</button>
+<br />
+
+<h3>Eliminar Paciente</h3>
+<EditForm Model="NuevoPacienteEliminar">
+    <InputNumber @bind-Value=NuevoPacienteEliminar.PacienteID></InputNumber>
+
+    <button @onclick="(()=>EliminarPaciente(NuevoPacienteEliminar.PacienteID))">Eliminar Paciente</button>
+</EditForm>
+
+<br />
+
+<h3>Actualizar Paciente</h3>
+<EditForm Model="NuevoPacienteActualizar">
+    <InputNumber @bind-Value=NuevoPacienteActualizar.PacienteID></InputNumber>
+    <InputText @bind-Value=NuevoPacienteActualizar.Nombre></InputText>
+    <InputDate @bind-Value=NuevoPacienteActualizar.FechaNacimiento></InputDate>
+    <InputText @bind-Value=NuevoPacienteActualizar.Genero></InputText>
+    <InputText @bind-Value=NuevoPacienteActualizar.Direccion></InputText>
+    <InputText @bind-Value=NuevoPacienteActualizar.Telefono></InputText>
+    <InputText @bind-Value=NuevoPacienteActualizar.SeguroMedico></InputText>
+
+    <button @onclick="(()=>ActualizarPaciente(NuevoPacienteActualizar))">Actualizar Paciente</button>
+</EditForm>
 
 @code {
-    private string email;
-    private string password;
+    Paciente NuevoPaciente = new Paciente();
+    Paciente NuevoPacienteEliminar = new Paciente();
+    Paciente NuevoPacienteActualizar = new Paciente();
 
-    private void Login()
+    public async Task CrearPaciente(Paciente paciente)
     {
-        Console.WriteLine("Inicio de sesión exitoso para el usuario: " + email);
+        var resultado = await Http.PostAsJsonAsync("api/Paciente", paciente);
+        // Lógica adicional después de la creación, si es necesario
     }
-}   
+
+    public async Task EliminarPaciente(int id)
+    {
+        var result = await Http.DeleteAsync($"api/Paciente/{id}");
+        // Lógica adicional después de la eliminación, si es necesario
+    }
+
+    public async Task ActualizarPaciente(Paciente paciente)
+    {
+        var result = await Http.PutAsJsonAsync($"api/Paciente/{paciente.PacienteID}", paciente);
+        // Lógica adicional después de la actualización, si es necesario
+    }
+}
+
+
